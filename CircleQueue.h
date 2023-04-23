@@ -81,6 +81,11 @@ void CircleQueue<T>::push(T item) {
 }
 
 template <typename T>
+bool CircleQueue<T>::rotate(T item) {
+	return rotate(item, T());
+}
+
+template <typename T>
 bool CircleQueue<T>::rotate(T item, T& drop) {
 	bool dropped = false;
 	if (curr_sz == max_sz) {
