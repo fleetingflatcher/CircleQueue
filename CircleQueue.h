@@ -30,7 +30,9 @@ public:
 	/* Fundamental Queue implementation */
 	void push(T item);
 	T pop();
-	T rotate(T item);
+	bool rotate(T item);
+	bool rotate(T item, T& drop);
+	inline bool full() { return curr_sz == max_sz; }
 	int max_sz;
 	int curr_sz;
 
@@ -79,14 +81,16 @@ void CircleQueue<T>::push(T item) {
 }
 
 template <typename T>
-T CircleQueue<T>::rotate(T item) {
-	T element = 0;
+bool CircleQueue<T>::rotate(T item, T& drop) {
+	bool dropped = false;
 	if (curr_sz == max_sz) {
-		element = pop();
+		drop = pop();
+		dropped = true;
 	}
 	push(item);
-	return element;
+	return dropped;
 }
+
 
 template <typename T>
 void CircleQueue<T>::shiftForward() {
