@@ -26,13 +26,13 @@ int main() {
     
     // Print the contents of the queue
     std::cout << "Queue contents: ";
-    for (int i = 0; i < queue.sizeOf(); i++) {
+    for (int i = 0; i < queue.curr_sz; i++) {
         std::cout << queue[i] << " ";
     }
     std::cout << std::endl;
     
     // Print the maximum size of the queue
-    std::cout << "Maximum queue size: " << queue.maxSizeOf() << std::endl;
+    std::cout << "Maximum queue size: " << queue.max_sz << std::endl;
     
     return 0;
 }

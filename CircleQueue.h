@@ -3,6 +3,21 @@
 
 #include <stdint.h>
 
+/*************************
+ * Exception Declaration
+**************************/
+
+class cq_null_reference {
+public:
+	cq_null_reference(const char* message) : _message(message) {}
+	const char* what() const { return _message; }
+private:
+	const char* _message;
+};
+
+/*************************
+ * Class Declaration
+**************************/
 
 template<typename T>
 class CircleQueue 
@@ -28,6 +43,10 @@ private:
 	void shiftForward();
 	T* elements;
 };
+
+/*************************
+ * Method Implementations
+**************************/
 
 template<typename T>
 CircleQueue<T>::CircleQueue(int size) {
@@ -77,10 +96,27 @@ void CircleQueue<T>::shiftForward() {
 	elements[curr_sz - 1] = T();
 }
 
-template<typename T> inline const T& 
-CircleQueue<T>::front() const { return curr_sz ? elements[0] : T(); }
-template<typename T> inline const T& 
-CircleQueue<T>::back()  const { return curr_sz ? elements[curr_sz-1] : T(); }
+template<typename T> inline const T& CircleQueue<T>::front() const { 
+	if (curr_sz == 0) 
+		throw cq_null_reference("CircleQueue empty; call to front() failed.");
+	else if (curr_sz < 0) 
+		throw cq_null_reference("Current size is less than zero. That should never happen.");
+	return elements[0];
+}
+
+template<typename T> inline const T& CircleQueue<T>::back() const { 
+	if (curr_sz == 0) 
+		throw cq_null_reference("CircleQueue empty; call to back() failed.");
+	else if (curr_sz < 0) 
+		throw cq_null_reference("Current size is less than zero. That should never happen.");
+	return elements[curr_sz - 1];
+}
+
+template<typename T> inline const T& CircleQueue<T>::operator[](int i) const {
+	if (i > curr_sz || i < 0) 
+		throw cq_null_reference("Index out of bounds."); 
+	return elements[i]; 
+}
 
 
 #endif // FF_QUEUE_H
