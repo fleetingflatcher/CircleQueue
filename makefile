@@ -10,4 +10,4 @@ test.o: test.cpp CircleQueue.h
 	$(CC) $(CFLAGS) -c test.cpp
 
 clean:
-	rm -f $(OBJS) test
+	rm -f *.o test
