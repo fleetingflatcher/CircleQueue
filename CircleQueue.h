@@ -33,7 +33,7 @@ public:
 	bool rotate(T item);
 	bool rotate(T item, T& drop);
 	inline bool full() { return curr_sz == max_sz; }
-	inline bool size() { return curr_sz; }
+	inline int size() { return curr_sz; }
 	inline bool isEmpty() { return curr_sz == 0; }
 	int max_sz;
 	int curr_sz;
