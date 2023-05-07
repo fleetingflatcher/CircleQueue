@@ -24,6 +24,7 @@ class CircleQueue
 {
 public:
 	/* Queue constructor/destructor */
+	CircleQueue();
 	CircleQueue(int size);
 	~CircleQueue();
 
@@ -33,8 +34,8 @@ public:
 	bool rotate(T item);
 	bool rotate(T item, T& drop);
 	inline bool full() { return curr_sz == max_sz; }
-	inline int size() { return curr_sz; }
 	inline bool isEmpty() { return curr_sz == 0; }
+	inline int size() { return curr_sz; }
 	int max_sz;
 	int curr_sz;
 
@@ -53,6 +54,13 @@ private:
 **************************/
 
 template<typename T>
+CircleQueue<T>::CircleQueue() {
+	max_sz = 7;
+	curr_sz = 0;
+	elements = new T[max_sz];
+}
+
+template<typename T>
 CircleQueue<T>::CircleQueue(int size) {
 	max_sz = size;
 	curr_sz = 0;
@@ -66,7 +74,7 @@ CircleQueue<T>::~CircleQueue() {
 
 template<typename T>
 T CircleQueue<T>::pop() {
-	if (curr_sz == 0) return 0;
+	if (curr_sz == 0) return T();
     T element = elements[0];
 	shiftForward();
 	--curr_sz;
@@ -84,7 +92,8 @@ void CircleQueue<T>::push(T item) {
 
 template <typename T>
 bool CircleQueue<T>::rotate(T item) {
-	return rotate(item, T());
+	T unused;
+	return rotate(item, unused);
 }
 
 template <typename T>
@@ -107,25 +116,28 @@ void CircleQueue<T>::shiftForward() {
 	elements[curr_sz - 1] = T();
 }
 
+/* Arduino default flags don't support exception handling, and I'm fed up with it. 
+	Commenting these out until the ben of posterity can resolve this.
+														-ben 11:24pm 4/22/23 */
 template<typename T> inline const T& CircleQueue<T>::front() const { 
 	if (curr_sz == 0) 
-		throw cq_null_reference("CircleQueue empty; call to front() failed.");
+		;//throw cq_null_reference("CircleQueue empty; call to front() failed.");
 	else if (curr_sz < 0) 
-		throw cq_null_reference("Current size is less than zero. That should never happen.");
+		;//throw cq_null_reference("Current size is less than zero. That should never happen.");
 	return elements[0];
 }
 
 template<typename T> inline const T& CircleQueue<T>::back() const { 
 	if (curr_sz == 0) 
-		throw cq_null_reference("CircleQueue empty; call to back() failed.");
+		;//throw cq_null_reference("CircleQueue empty; call to back() failed.");
 	else if (curr_sz < 0) 
-		throw cq_null_reference("Current size is less than zero. That should never happen.");
+		;//throw cq_null_reference("Current size is less than zero. That should never happen.");
 	return elements[curr_sz - 1];
 }
 
 template<typename T> inline const T& CircleQueue<T>::operator[](int i) const {
 	if (i > curr_sz || i < 0) 
-		throw cq_null_reference("Index out of bounds."); 
+		;//throw cq_null_reference("Index out of bounds."); 
 	return elements[i]; 
 }
 
